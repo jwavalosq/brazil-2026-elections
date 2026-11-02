@@ -1,0 +1,9 @@
+# Large TSE raw downloads (re-downloadable from cdn.tse.jus.br; see BUILD_REPORT.md)
+data/raw/*.zip
+data/raw/*.pdf
+# Local virtualenvs (the build used ~/.venvs/elections, outside the repo)
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

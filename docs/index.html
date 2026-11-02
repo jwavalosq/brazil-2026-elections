@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brazil 2026: The Comeback — How Lula Won the Runoff</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; max-width: 820px; margin: 0 auto; padding: 24px 20px 64px; color: #1a1a1a; line-height: 1.65; }
+  h1 { font-size: 2.2em; line-height: 1.2; margin-bottom: 0.2em; }
+  h2 { margin-top: 2.2em; border-top: 2px solid #1a1a1a; padding-top: 0.4em; }
+  .lede { font-size: 1.25em; color: #333; }
+  .callout { background: #fff8e1; border-left: 4px solid #e6a700; padding: 14px 18px; margin: 20px 0; }
+  .stat { font-size: 1.6em; font-weight: bold; }
+  img { max-width: 100%; height: auto; border: 1px solid #ddd; margin: 12px 0; }
+  .caption { color: #555; font-size: 0.9em; margin-top: -6px; }
+  .btn { display: inline-block; background: #1a1a1a; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 6px; margin: 6px 8px 6px 0; }
+  .btn.light { background: #fff; color: #1a1a1a; border: 2px solid #1a1a1a; }
+  footer { margin-top: 3em; color: #555; font-size: 0.9em; border-top: 1px solid #ddd; padding-top: 1em; }
+  code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  td, th { border: 1px solid #ddd; padding: 8px; text-align: left; }
+</style>
+</head>
+<body>
+
+<h1>Brazil 2026: The Comeback</h1>
+<p class="lede">Flávio Bolsonaro led the first round. Lula won the runoff. That had never happened before in Brazil's post-1989 democracy — and it did not require inventing a single vote to explain.</p>
+<div class="callout">
+<p><strong>About the dispute, up front.</strong> Flávio Bolsonaro refused to concede, alleged fraud over a judge's last-minute order extending voting by two hours in certain regions, pledged annulment, then fled to Miami on October 28 after a passport-surrender order. The electoral court (TSE), foreign governments, and his own party accepted the result. <strong>The TSE count is the source of truth here.</strong> The contestation is labelled wherever results are shown — never hidden, and never treated, by itself, as proof of fraud <em>or</em> proof of cleanliness.</p>
+</div>
+<p>
+  <a class="btn" href="https://github.com/jwavalosq/brazil-2026-elections">View the code on GitHub</a>
+  <a class="btn light" href="https://github.com/jwavalosq/brazil-2026-elections#how-to-run-it">Run it in Google Colab</a>
+</p>
+
+<h2>Chapter 1 — How a two-round election works</h2>
+<p>Brazil votes in two rounds: if nobody passes 50% of valid votes in round 1, the top two go again. That is the whole secret of a comeback. In round 2, millions of voters have to choose again — including everyone who voted for an eliminated candidate, and everyone who stayed home the first time. With a toy example of 100 voters, this project shows how transfer plus turnout alone can flip a result, with zero fraud involved.</p>
+<img src="charts/01_toy.png" alt="Toy two-round example">
+<p class="caption">The toy: same voters, second choice, different winner.</p>
+
+<h2>Chapter 2 — The 2026 story</h2>
+<p>October 4, round 1: Flávio Bolsonaro <span class="stat">47.03%</span>, Lula <span class="stat">45.16%</span> — Flávio ahead by about 2 million votes. October 25, round 2: Lula <span class="stat">51.79%</span> (64,256,232 votes), Flávio <span class="stat">48.21%</span> (59,826,041) — a margin of 4,430,191. Turnout 80.78%, abstention 19.22%. At 81, Lula won a fourth term, and became the first candidate since 1989 to finish second in round 1 and win the runoff.</p>
+<img src="charts/02_rounds.png" alt="Round 1 vs round 2 national result">
+<p class="caption">Round 1 vs round 2: the flip, in one chart.</p>
+<img src="charts/02_state_share.png" alt="2026 second-round share by state">
+<p class="caption">The runoff map, state by state.</p>
+
+<h2>Chapter 3 — Where did the votes come from? (the core finding)</h2>
+<p>Lula gained <strong>+10,376,694</strong> votes between rounds; Flávio gained +3,721,538. Together: +14,098,232. That total is exactly covered by two pools: eliminated candidates' round-1 votes (9,316,747) plus the valid-vote increase (+4,781,485, from higher turnout and fewer blank/null votes). The comeback adds up, in aggregate.</p>
+<p>But eliminated votes alone <em>cannot</em> explain it: Lula's gain is <strong>111.4%</strong> of the entire eliminated pool, so at least <strong>1,059,947</strong> votes must have come from new voters, round-1 blank/null voters choosing a candidate, or Flávio switchers. Aggregate data cannot split that remainder — and this project does not pretend to. One more honesty note: if transfer and new voters had split like the round-2 result itself, Lula would have gained only ~7.30 million. He gained 10.38 million, so transfer and new voters leaned Lula more than average.</p>
+<p>And it was broad: Lula gained votes in <strong>98.6%</strong> of municipalities (5,491 of 5,571); the median municipality swung +5.13 points.</p>
+<img src="charts/03_decomposition.png" alt="Vote decomposition">
+<p class="caption">The decomposition: where 10.4 million votes can — and cannot — come from.</p>
+<img src="charts/03_swing_map.png" alt="Municipality swing map">
+<p class="caption">Every municipality, round 1 to round 2: the swing is nearly everywhere, not in a few places.</p>
+<img src="charts/03_abstention_map.png" alt="Abstention map">
+<p class="caption">Abstention fell almost everywhere in round 2 — millions more showed up.</p>
+
+<h2>Chapter 4 — Regions over time (1998–2026)</h2>
+<p>The Northeast remains the PT's strongest region (69.37% in 2026) and the furthest above its own 1998–2022 mean (+4.86 points). The South is the weakest (37.42%, −5.60 vs its mean). The Southeast rose most versus 2022 (+1.51 points, to 47.24%); the North reached 50.01%; the Center-West was flat (39.99%). Only <strong>2 states flipped</strong> between 2022 and 2026: Amapá to the PT, Tocantins away from it.</p>
+<img src="charts/04_pt_share_region.png" alt="PT share by region over time">
+<p class="caption">Each region against its own history — the Northeast above it, the South below it.</p>
+<img src="charts/04_state_map_2026.png" alt="2026 state map">
+<p class="caption">2026 by state.</p>
+<img src="charts/04_2026_vs_history.png" alt="2026 vs historical mean">
+<p class="caption">2026 compared with each region's own historical average.</p>
+
+<h2>Chapter 5 — The fraud-claim test, honestly</h2>
+<table>
+<tr><th>What was tested</th><th>Result</th></tr>
+<tr><td>Was the gain broad across municipalities and regions?</td><td>Yes — most municipalities, all five regions</td></tr>
+<tr><td>Was the gain arithmetically possible from eliminated votes + new valid votes?</td><td>Yes — the pools cover the gains exactly</td></tr>
+<tr><td>Was the gain concentrated in a few big places?</td><td>No dramatic concentration — top 100 municipalities: 45.2% of gains vs 38.7% of electorate</td></tr>
+<tr><td>Did gains track where turnout rose?</td><td>Only weakly — correlations 0.05 and 0.08</td></tr>
+<tr><td>Did extended-hours regions behave differently?</td><td><strong>Cannot be tested from these files</strong> — TSE files contain no voting-hours field, so no such comparison is presented</td></tr>
+</table>
+<p><strong>What this does and does not prove.</strong> The comeback adds up, happened almost everywhere rather than in a few places, and looks like what happens when millions of voters have to choose again and millions more show up. But vote totals alone cannot prove an election was clean, and they cannot prove fraud either. Both over-claims go beyond what municipality totals can say, and this project makes neither.</p>
+<img src="charts/05_breadth.png" alt="Breadth of gains">
+<p class="caption">Breadth: gains in 98.6% of municipalities.</p>
+
+<h2>What was cut, honestly</h2>
+<p>2022 Census demographic overlays (income, race, education) were cut — IBGE's data APIs were unreachable from the build machine and no key-free bulk mirror was found. The extended-hours comparison was cut, not faked — the field does not exist in TSE files. The regional series starts in 1998 because the TSE municipality series starts there (the national runoff-history table still covers 1989–2026). Everything cut is documented in <code>BUILD_REPORT.md</code>.</p>
+<p><a class="btn" href="https://github.com/jwavalosq/brazil-2026-elections">Explore the full project</a></p>
+
+<footer>
+  <p>Built by Jesus Avalos · Data: TSE (Superior Electoral Court) official results, IBGE-derived municipality shapes · Methods: municipality panel 1998–2026, aggregate vote-transfer decomposition with stated uncertainty.</p>
+  <p>Full methods, sources, and limitations: see <a href="https://github.com/jwavalosq/brazil-2026-elections/blob/main/BUILD_REPORT.md">BUILD_REPORT.md</a> in the repo.</p>
+</footer>
+
+</body>
+</html>
