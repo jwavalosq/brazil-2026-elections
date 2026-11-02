@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brazil 2026: Interactive Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; max-width: 900px; margin: 0 auto; padding: 24px 20px 64px; color: #1a1a1a; line-height: 1.65; }
+  h1 { font-size: 2em; line-height: 1.2; }
+  h2 { margin-top: 2em; border-top: 2px solid #1a1a1a; padding-top: 0.4em; }
+  .kpis { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+  .kpi { border: 2px solid #1a1a1a; border-radius: 8px; padding: 14px 18px; flex: 1 1 180px; }
+  .kpi .num { font-size: 1.8em; font-weight: bold; }
+  .kpi .lbl { color: #555; }
+  .note { color: #333; background: #f4f4f4; border-left: 4px solid #1a1a1a; padding: 12px 16px; margin: 12px 0; }
+  .btn { display: inline-block; background: #1a1a1a; color: #fff; padding: 8px 16px; text-decoration: none; border-radius: 6px; margin: 4px 6px 4px 0; cursor: pointer; border: none; font-size: 1em; }
+  .btn.light { background: #fff; color: #1a1a1a; border: 2px solid #1a1a1a; }
+  .chartbox { margin: 16px 0 8px; }
+  footer { margin-top: 3em; color: #555; font-size: 0.9em; border-top: 1px solid #ddd; padding-top: 1em; }
+</style>
+</head>
+<body>
+
+<h1>Brazil 2026: The Comeback in Charts</h1>
+<p>Brazil votes in two rounds. If nobody gets more than half the votes in round one, the top two go to round two. This dashboard shows, in plain numbers, how Lula came back to win, where the votes came from, and how each region and state behaved. No background in politics needed.</p>
+<p>
+  <a class="btn" href="index.html">Back to the story</a>
+  <a class="btn light" href="https://github.com/jwavalosq/brazil-2026-elections">See the code and data</a>
+</p>
+
+<div class="kpis">
+  <div class="kpi"><div class="num">47.03% vs 45.16%</div><div class="lbl">Round one: Flavio ahead of Lula</div></div>
+  <div class="kpi"><div class="num">51.79% vs 48.21%</div><div class="lbl">Round two: Lula wins</div></div>
+  <div class="kpi"><div class="num">4,430,191</div><div class="lbl">Vote margin in round two</div></div>
+  <div class="kpi"><div class="num">80.78%</div><div class="lbl">Turnout in round two</div></div>
+  <div class="kpi"><div class="num">98.6%</div><div class="lbl">Towns and cities where Lula gained votes</div></div>
+</div>
+
+<h2>1. The flip: round one vs round two</h2>
+<p>Flavio led round one. Lula won round two. This had never happened before in Brazil's modern democracy.</p>
+<div class="chartbox"><canvas id="c1"></canvas></div>
+
+<h2>2. Where did the votes come from?</h2>
+<p>Lula gained 10,376,694 votes. That total is covered by two pools: votes from candidates who were eliminated (9,316,747) plus more valid votes in round two (4,781,485, from higher turnout and fewer blank and null votes). But note the honest catch: Lula's gain alone is bigger than the whole eliminated pool, so at least 1,059,947 votes must have come from new voters, blank or null voters who picked a candidate, or people who switched sides. The data cannot split that remainder.</p>
+<div class="chartbox"><canvas id="c2"></canvas></div>
+
+<h2>3. Regions: 2026 vs their own history</h2>
+<p>Each region compared with its own average from 1998 to 2022. The Northeast is furthest above its history. The South is furthest below it.</p>
+<div class="chartbox"><canvas id="c3"></canvas></div>
+
+<h2>4. Every state: pick a round</h2>
+<p>Use the buttons to switch between round one and round two. States are sorted by the round two result, so you can see who moved and by how much.</p>
+<p>
+  <button class="btn" onclick="setRound(2)">Round two</button>
+  <button class="btn light" onclick="setRound(1)">Round one</button>
+</p>
+<div class="chartbox"><canvas id="c4"></canvas></div>
+<div class="note"><strong>How to read this:</strong> a "town or city" here means a municipality, the smallest voting area in Brazil. "Valid votes" means votes for a candidate, not blank or null votes. Turnout means the share of registered voters who showed up.</div>
+
+<h2>What this does and does not prove</h2>
+<p>The comeback adds up, happened almost everywhere, and looks like millions of second choices plus millions of new voters. But vote totals alone cannot prove an election was clean, and they cannot prove fraud either. The dispute is real: Flavio refused to concede and alleged fraud over extended voting hours. That specific question cannot be tested from these files, because they contain no voting hours field, so this dashboard does not pretend to answer it. The source of truth is the official TSE count.</p>
+
+<footer>
+  <p>Data: TSE (Superior Electoral Court) official results, processed in the repo. Full methods, sources, and limitations: <a href="https://github.com/jwavalosq/brazil-2026-elections/blob/main/BUILD_REPORT.md">BUILD_REPORT.md</a>. Download the state data: <a href="https://github.com/jwavalosq/brazil-2026-elections/blob/main/data/processed/state_2026.csv">state_2026.csv</a>.</p>
+</footer>
+
+<script>
+const states = ["Piauí","Bahia","Maranhão","Sergipe","Pernambuco","Ceará","Paraíba","Rio Grande do Norte","Alagoas","Pará","Amazonas","Amapá","Minas Gerais","Tocantins","Rio de Janeiro","São Paulo","Distrito Federal","Espírito Santo","Rio Grande do Sul","Mato Grosso do Sul","Goiás","Paraná","Mato Grosso","Acre","Santa Catarina","Rondônia","Roraima"];
+const r2 = [75.88,71.31,69.54,69.53,69.20,68.93,67.46,65.72,60.77,55.02,54.02,52.88,50.43,48.63,46.90,46.15,45.72,43.63,42.16,40.40,40.34,37.42,33.94,33.43,30.58,30.39,27.54];
+const r1 = [70.99,66.17,63.99,62.75,63.45,63.29,61.31,59.75,54.73,49.91,48.23,45.71,43.33,43.42,39.41,38.20,38.11,37.76,35.73,34.68,31.06,31.20,29.18,28.73,25.04,25.89,22.86];
+
+new Chart(document.getElementById('c1'), { type: 'bar', data: { labels: ['Lula','Flavio'], datasets: [
+  { label: 'Round one (%)', data: [45.16, 47.03], backgroundColor: '#9aa0a6' },
+  { label: 'Round two (%)', data: [51.79, 48.21], backgroundColor: '#1a1a1a' } ] },
+  options: { responsive: true, scales: { y: { min: 0, max: 60, title: { display: true, text: 'Share of valid votes (%)' } } } } });
+
+new Chart(document.getElementById('c2'), { type: 'bar', data: { labels: ['Votes from eliminated candidates','More valid votes in round two','Lula gain','Flavio gain'], datasets: [
+  { label: 'Votes', data: [9316747, 4781485, 10376694, 3721538], backgroundColor: ['#9aa0a6','#9aa0a6','#1a1a1a','#6b7280'] } ] },
+  options: { responsive: true, scales: { y: { title: { display: true, text: 'Votes' } } } } });
+
+new Chart(document.getElementById('c3'), { type: 'bar', data: { labels: ['Northeast','North','Southeast','Center-West','South'], datasets: [
+  { label: '2026 (%)', data: [69.37, 50.01, 47.24, 39.99, 37.42], backgroundColor: '#1a1a1a' },
+  { label: 'Historical mean 1998 to 2022 (%)', data: [64.51, 51.62, 46.73, 42.38, 43.02], backgroundColor: '#9aa0a6' } ] },
+  options: { responsive: true, scales: { y: { min: 0, max: 80, title: { display: true, text: 'Lula party share (%)' } } } } });
+
+const c4 = new Chart(document.getElementById('c4'), { type: 'bar', data: { labels: states, datasets: [
+  { label: 'Lula share round two (%)', data: r2, backgroundColor: '#1a1a1a' } ] },
+  options: { indexAxis: 'y', responsive: true, scales: { x: { min: 0, max: 80, title: { display: true, text: 'Lula share of valid votes (%)' } } } } });
+
+function setRound(round) {
+  if (round === 2) { c4.data.datasets[0].label = 'Lula share round two (%)'; c4.data.datasets[0].data = r2; }
+  else { c4.data.datasets[0].label = 'Lula share round one (%)'; c4.data.datasets[0].data = r1; }
+  c4.update();
+}
+</script>
+
+</body>
+</html>

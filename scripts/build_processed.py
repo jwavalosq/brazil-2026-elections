@@ -85,7 +85,7 @@ def process_year(year):
     df = df[df["CD_CARGO"].astype(str).str.strip() == "1"].copy()
     if year == 1998:
         # No *_BR.csv in the 1998 ZIP (see read_brasil_president), and its
-        # QT_VOTOS_NOMINAIS column is all zeros — the real count is in
+        # QT_VOTOS_NOMINAIS column is all zeros, the real count is in
         # QT_VOTOS_NOMINAIS_VALIDOS (verified against the file's first rows).
         extra = read_brasil_president(vz, vc + ["QT_VOTOS_NOMINAIS_VALIDOS"])
         if "QT_VOTOS_NOMINAIS_VALIDOS" in extra.columns:
